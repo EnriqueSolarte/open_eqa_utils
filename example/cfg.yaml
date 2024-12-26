@@ -1,0 +1,20 @@
+
+defaults:
+  - general
+  - list_scenes
+  - open_eqa
+  - _self_
+
+log_dir: ${get_hydra_dirname:}/logs/${script}
+
+data_dir: /media/datasets/open_eqa_dataset/hm3d-v0-pre-processed/
+scene_name: 000-hm3d-BFRyYbPCCPE
+
+open_eqa:
+  scene_name: ${scene_name}
+  data_dir: ${data_dir}
+  
+hydra:
+  searchpath:
+    - ${oc.env:UTILS_OPEN_EAQ_CFG_DIR}
+    - ${oc.env:GEOM_UTILS_CFG_DIR}
