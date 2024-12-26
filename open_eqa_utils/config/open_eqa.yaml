@@ -1,0 +1,13 @@
+
+
+scene_name: ???
+data_dir: ???
+open_eqa:
+  scene_name: ${scene_name}
+  data_dir: ${data_dir}
+  rgb_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/rgb
+  depth_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/depth
+  semantic_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/semantic
+  poses_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/poses
+  hfov: 90
+  resolution: [1080, 1920]
