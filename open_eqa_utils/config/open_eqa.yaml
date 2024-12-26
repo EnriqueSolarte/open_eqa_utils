@@ -9,5 +9,7 @@ open_eqa:
   depth_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/depth
   semantic_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/semantic
   poses_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/poses
+  bins_voxels_2d_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/bins_voxel_map_2d.pkl
+  bins_voxels_3d_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/bins_voxel_map_3d.pkl
   hfov: 90
   resolution: [1080, 1920]

@@ -19,7 +19,7 @@ def main(cfg):
     list_frames = [Path(f).stem for f in os.listdir(cfg.open_eqa.rgb_dir)]
     _xyz_rgb_wc = []
 
-    for fr in tqdm(list_frames[:10]):
+    for fr in tqdm(list_frames[0:-1:5]):
         rgb = imread(f"{cfg.open_eqa.rgb_dir}/{fr}.jpg")
         depth = np.load(f"{cfg.open_eqa.depth_dir}/{fr}.npy")
         cam_pose = np.load(f"{cfg.open_eqa.poses_dir}/{fr}.npy")

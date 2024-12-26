@@ -2,6 +2,8 @@
 defaults:
   - general
   - list_scenes
+  - open_eqa
+  - voxels_cfg
   - _self_
 
 states_dir: /media/datasets/open_eqa_dataset/hm3d-v0
@@ -9,6 +11,21 @@ pre_proc_dir: /media/datasets/open_eqa_dataset/hm3d-v0-pre-processed
 hm3d_dir: /media/datasets/habitat/v0.2/val
 
 log_dir: ${pre_proc_dir}/../logs/${script}/${date}
+
+scene_name: 000-hm3d-BFRyYbPCCPE
+data_dir: ${pre_proc_dir}
+open_eqa:
+  scene_name: ${scene_name}
+  data_dir: ${data_dir}
+
+voxel_grid_2d:
+  grid_size: 0.01
+  padding: 10
+
+voxel_grid_3d:
+  grid_size: 0.01
+  padding: 10
+
 
 hydra:
   searchpath:

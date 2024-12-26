@@ -1,0 +1,9 @@
+voxel_grid_2d:
+  voxel_type: voxel_grid_2d
+  grid_size: 0.005
+  padding: 10
+
+voxel_grid_3d:
+  voxel_type: voxel_grid_3d
+  grid_size: 0.005
+  padding: 10
