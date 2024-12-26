@@ -2,11 +2,12 @@
 This repository contains utilities for the OpenEQA project. This is an independent project intended to pre-process the OpenEAQ data, explore more options, project easily in 3D using voxels maps, among other.
 
 <p align="center">
-  <img src="./assets/scene_test.gif />
+  <img src="./assets/scene_test.gif"/>
 </p>
 
 ## Installation
 To install the package, you can use the following command:
+
 ```bash
 conda create -n openeqa python=3.9
 conda activate openeqa
