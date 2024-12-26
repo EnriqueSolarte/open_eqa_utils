@@ -13,7 +13,7 @@ from typing import List
 import habitat_sim
 import numpy as np
 import tqdm
-from utils_open_eqa.pre_process_hm3d_dataset.orig_open_eqa.config import make_cfg
+from open_eqa_utils.pre_process_hm3d_dataset.orig_open_eqa.config import make_cfg
 from PIL import Image
 
 os.environ["MAGNUM_LOG"] = "quiet"
