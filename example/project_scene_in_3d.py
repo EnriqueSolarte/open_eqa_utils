@@ -4,7 +4,7 @@ from geometry_perception_utils.pinhole_utils import project_pp_depth_from_hfov
 from geometry_perception_utils.image_utils import get_color_array
 from geometry_perception_utils.vispy_utils import plot_color_plc
 from geometry_perception_utils.geometry_utils import extend_array_to_homogeneous, eulerAnglesToRotationMatrix
-import utils_open_eqa
+import open_eqa_utils
 from tqdm import tqdm
 import os
 from pathlib import Path

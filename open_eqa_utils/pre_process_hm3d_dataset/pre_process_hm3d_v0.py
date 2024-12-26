@@ -1,12 +1,12 @@
 import hydra
 from geometry_perception_utils.io_utils import get_abs_path, create_directory
-import utils_open_eqa
+import open_eqa_utils
 from tqdm import tqdm
 import os
 import habitat_sim
 from pathlib import Path
 import pickle
-from utils_open_eqa.pre_process_hm3d_dataset.orig_open_eqa.config import make_cfg
+from open_eqa_utils.pre_process_hm3d_dataset.orig_open_eqa.config import make_cfg
 from geometry_perception_utils.geometry_utils import eulerAnglesToRotationMatrix
 import logging
 from imageio.v2 import imwrite

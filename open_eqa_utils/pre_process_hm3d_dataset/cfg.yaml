@@ -12,5 +12,5 @@ log_dir: ${pre_proc_dir}/../logs/${script}/${date}
 
 hydra:
   searchpath:
-    - ${oc.env:UTILS_OPEN_EAQ_CFG_DIR}
+    - ${oc.env:OPEN_EAQ_UTILS_CFG_DIR}
     - ${oc.env:GEOM_UTILS_CFG_DIR}

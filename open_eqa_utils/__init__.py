@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
 
-UTILS_OPEN_EQA_ROOT = os.path.dirname(os.path.abspath(__file__))
-UTILS_OPEN_EAQ_CFG_DIR = os.path.join(UTILS_OPEN_EQA_ROOT, 'config')
+OPEN_EQA_UTILS_ROOT = os.path.dirname(os.path.abspath(__file__))
+OPEN_EAQ_UTILS_CFG_DIR = os.path.join(OPEN_EQA_UTILS_ROOT, 'config')
 
-os.environ['UTILS_OPEN_EQA_ROOT'] = UTILS_OPEN_EQA_ROOT
-os.environ['UTILS_OPEN_EAQ_CFG_DIR'] = UTILS_OPEN_EAQ_CFG_DIR
+os.environ['OPEN_EQA_UTILS_ROOT'] = OPEN_EQA_UTILS_ROOT
+os.environ['OPEN_EAQ_UTILS_CFG_DIR'] = OPEN_EAQ_UTILS_CFG_DIR
