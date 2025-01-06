@@ -7,12 +7,23 @@ defaults:
 
 log_dir: ${get_hydra_dirname:}/logs/${script}
 
-data_dir: /media/datasets/open_eqa_dataset/hm3d-v0-pre-processed/
-scene_name: 000-hm3d-BFRyYbPCCPE
+scannet:
+  data_dir: /media/datasets/open_eqa_dataset/scannet-v0-pre-processed
+  scene_name: 002-scannet-scene0709_00
+  cam_projection_module: open_eqa_utils.utils.project_pp_depth_from_K
+  xyz_wc_registration_module: open_eqa_utils.utils.get_registered_xyz_rgb_wc_scannet
+
+hm3d:
+  data_dir: /media/datasets/open_eqa_dataset/hm3d-v0-pre-processed
+  scene_name: 000-hm3d-BFRyYbPCCPE
+  cam_projection_module: open_eqa_utils.utils.project_pp_depth_from_hfov
+  xyz_wc_registration_module: open_eqa_utils.utils.get_registered_xyz_rgb_wc_hm3d
+  
 
 open_eqa:
-  scene_name: ${scene_name}
-  data_dir: ${data_dir}
+  dataset: ${hm3d} # ${scannet} # ${hm3d} 
+  scene_name: ${open_eqa.dataset.scene_name}
+  data_dir: ${open_eqa.dataset.data_dir}
   
 hydra:
   searchpath:
