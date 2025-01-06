@@ -2,6 +2,7 @@
 
 scene_name: ???
 data_dir: ???
+open_eqa_questions: ${oc.env:OPEN_EAQ_UTILS_CFG_DIR}/open-eqa-v0.json
 open_eqa:
   scene_name: ${scene_name}
   data_dir: ${data_dir}
@@ -11,5 +12,4 @@ open_eqa:
   poses_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/poses
   bins_voxels_2d_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/bins_voxel_map_2d.pkl
   bins_voxels_3d_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/bins_voxel_map_3d.pkl
-  hfov: 90
-  resolution: [1080, 1920]
+  intrinsics: ${load:${open_eqa.data_dir}/${open_eqa.scene_name}/intrinsics.yaml}

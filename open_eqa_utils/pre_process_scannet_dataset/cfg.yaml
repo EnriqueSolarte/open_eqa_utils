@@ -1,0 +1,33 @@
+
+defaults:
+  - general
+  - open_eqa
+  - list_scenes
+  - _self_
+
+pre_proc_dir: /media/datasets/open_eqa_dataset/scannet-v0-pre-processed
+scannet_dirs: 
+  scans: /media/datasets/ScanNet/ScanNet_full_version/scans
+  scans_test: /media/datasets/ScanNet/ScanNet_full_version/scans_test
+  
+
+log_dir: ${pre_proc_dir}/../logs/${script}/${date}
+
+scene_name: 002-scannet-scene0709_00
+data_dir: ${pre_proc_dir}
+
+voxel_grid_2d:
+  voxel_type: voxel_grid_2d
+  grid_size: 0.01
+  padding: 10
+
+voxel_grid_3d:
+  voxel_type: voxel_grid_3d
+  grid_size: 0.01
+  padding: 10
+
+
+hydra:
+  searchpath:
+    - ${oc.env:OPEN_EAQ_UTILS_CFG_DIR}
+    - ${oc.env:GEOM_UTILS_CFG_DIR}
