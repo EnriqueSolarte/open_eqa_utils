@@ -13,25 +13,7 @@ from geometry_perception_utils.dense_voxel_grid import VoxelGrid3D, VoxelGrid2D
 import logging
 import open_eqa_utils
 import pickle
-
-
-def get_registered_xyz_rgb_wc(cfg, frame):
-
-    rgb = imread(f"{cfg.rgb_dir}/{frame}.jpg")
-    depth = np.load(f"{cfg.depth_dir}/{frame}.npy")
-    cam_pose = np.load(f"{cfg.poses_dir}/{frame}.npy")
-
-    xyz_cc, m = project_pp_depth_from_hfov(depth, cfg.hfov)
-    xyz_wc = cam_pose[:3, :] @ extend_array_to_homogeneous(xyz_cc)
-    xyz_color = get_color_array(rgb)[:, m]/255
-
-    return np.vstack((xyz_wc, xyz_color))
-
-
-def check_file_exists(fn):
-    if Path(fn).exists():
-        logging.warning(f"2D voxel map already exists @ {fn}")
-        input("The file will be overwritten. Press Enter to continue...")
+from open_eqa_utils.utils import check_file_exists, get_registered_xyz_rgb_wc_hm3d
 
 
 def process_voxels(cfg):
@@ -48,7 +30,7 @@ def process_voxels(cfg):
     voxel3d = VoxelGrid3D(cfg.voxel_grid_3d)
 
     for fr in tqdm(list_frames, desc="Creating voxel maps..."):
-        _xyz_rgb_wc = get_registered_xyz_rgb_wc(cfg.open_eqa, fr)
+        _xyz_rgb_wc = get_registered_xyz_rgb_wc_hm3d(cfg.open_eqa, fr)
         _ = voxel2d.project_xyz(_xyz_rgb_wc[:3, :])
         _ = voxel3d.project_xyz(_xyz_rgb_wc[:3, :])
 

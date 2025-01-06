@@ -1,12 +1,12 @@
 import hydra
-from geometry_perception_utils.io_utils import get_abs_path, create_directory
+from geometry_perception_utils.io_utils import get_abs_path, create_directory, save_yaml_dict
 import open_eqa_utils
 from tqdm import tqdm
 import os
 import habitat_sim
 from pathlib import Path
 import pickle
-from open_eqa_utils.pre_process_hm3d_dataset.orig_open_eqa.config import make_cfg
+from open_eqa_utils.pre_process_hm3d_dataset.hm3d_open_eqa.config import make_cfg
 from geometry_perception_utils.geometry_utils import eulerAnglesToRotationMatrix
 import logging
 from imageio.v2 import imwrite
@@ -91,12 +91,15 @@ def main(cfg):
             f"Processing scene: {Path(raw_scene_dir).stem} - agent positions: {list_states.__len__()}")
 
         data_dir = create_directory(
-            f"{cfg.pre_proc_dir}/{Path(raw_scene_dir).stem}")
-        rgb_dir = create_directory(f"{data_dir}/rgb")
-        depth_dir = create_directory(f"{data_dir}/depth")
-        semantic_dir = create_directory(f"{data_dir}/semantic")
-        poses_dir = create_directory(f"{data_dir}/poses")
-
+            f"{cfg.pre_proc_dir}/{Path(raw_scene_dir).stem}", delete_prev=False)
+        rgb_dir = create_directory(f"{data_dir}/rgb", delete_prev=False)
+        depth_dir = create_directory(f"{data_dir}/depth", delete_prev=False)
+        semantic_dir = create_directory(f"{data_dir}/semantic", delete_prev=False)
+        poses_dir = create_directory(f"{data_dir}/poses", delete_prev=False)
+        
+        intrinsic_fn = f"{data_dir}/intrinsics.yaml"
+        save_yaml_dict(intrinsic_fn, default_settings)
+        
         for idx, path in tqdm(enumerate(list_states), desc="Processing agent states"):
             # set agent state
             data = pickle.load(Path(path).open("rb"))
