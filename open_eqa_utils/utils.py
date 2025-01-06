@@ -54,3 +54,14 @@ def get_registered_xyz_rgb_wc_hm3d(cfg, frame):
     xyz_color = get_color_array(rgb)[:, m]/255
 
     return np.vstack((xyz_wc, xyz_color))
+
+
+def cam_projection_hm3d(depth, cfg):
+    xyz_cc, m = project_pp_depth_from_hfov(depth, cfg.intrinsics.sensor_hfov)
+    return xyz_cc, m
+
+
+def cam_projection_scannet(depth, cfg):
+    K = np.array(cfg.intrinsics.K).reshape(3, 3)
+    xyz_cc, m = project_pp_depth_from_K(depth, K)
+    return xyz_cc, m
