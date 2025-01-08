@@ -140,6 +140,9 @@ class SensorData:
         #         depth = depth.reshape(-1, depth.shape[1]).tolist()
         #         writer.write(f, depth)
         for f in trange(0, num_frames, frame_skip, desc="Exporting depth maps.."):
+            _, ret = self.get_and_check_camera_pose(f)
+            if not ret:
+                continue
             output_filename = os.path.join(output_path, f"{f:06d}.npy")
             depth_data = self.frames[f].decompress_depth(
                 self.depth_compression_type)
@@ -167,6 +170,9 @@ class SensorData:
         #     if os.path.exists(output_filename):
         #         continue  # skip existing
         for f in trange(0, num_frames, frame_skip, desc="Exporting RGB images..."):
+            _, ret = self.get_and_check_camera_pose(f)
+            if not ret:
+                continue
             output_filename = os.path.join(output_path, f"{f:06d}.jpg")
             color = self.frames[f].decompress_color(
                 self.color_compression_type)
@@ -187,6 +193,12 @@ class SensorData:
             for line in matrix:
                 np.savetxt(f, line[np.newaxis], fmt="%f")
 
+    def get_and_check_camera_pose(self, frame_idx):
+        cam_pose = self.frames[frame_idx].camera_to_world
+        if np.isnan(cam_pose).any() or np.isinf(cam_pose).any():
+            return None, False
+        return cam_pose, True
+
     def export_poses(self, output_path, frame_skip=1, num_frames=None):
         if not os.path.exists(output_path):
             os.makedirs(output_path)
@@ -206,7 +218,13 @@ class SensorData:
         #     self.frames[f].camera_to_world, output_filename)
         for f in trange(0, num_frames, frame_skip, desc="Exporting RGB images..."):
             output_filename = os.path.join(output_path, f"{f:06d}.npy")
-            np.save(output_filename, self.frames[f].camera_to_world)
+            cam_pose, ret = self.get_and_check_camera_pose(f)
+            if not ret:
+                logging.warning(
+                    f"Found nan or inf values in the camera pose for frame {f}. Skipping..."
+                )
+                continue
+            np.save(output_filename, cam_pose)
 
     def export_intrinsics(self, output_path):
         if not os.path.exists(output_path):

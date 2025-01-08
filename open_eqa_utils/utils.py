@@ -21,11 +21,11 @@ def check_file_exists(fn):
         input("The file will be overwritten. Press Enter to continue...")
 
 
-def create_scene_dir(scene_dir):
-    data_dir = create_directory(scene_dir)
-    rgb_dir = create_directory(f"{data_dir}/rgb")
-    depth_dir = create_directory(f"{data_dir}/depth")
-    poses_dir = create_directory(f"{data_dir}/poses")
+def create_scene_dir(scene_dir, delete_prev=True):
+    data_dir = create_directory(scene_dir, delete_prev=delete_prev, ignore_request=True)
+    rgb_dir = create_directory(f"{data_dir}/rgb", delete_prev=delete_prev, ignore_request=True)
+    depth_dir = create_directory(f"{data_dir}/depth",delete_prev=delete_prev, ignore_request=True)
+    poses_dir = create_directory(f"{data_dir}/poses", delete_prev=delete_prev, ignore_request=True)
     return rgb_dir, depth_dir, poses_dir
 
 
@@ -37,6 +37,8 @@ def get_registered_xyz_rgb_wc_scannet(cfg, frame):
 
     K = np.array(cfg.intrinsics.K).reshape(3, 3)
     xyz_cc, m = project_pp_depth_from_K(depth, K)
+    if m.sum(0) == 0:
+        return None
     xyz_wc = cam_pose[:3, :] @ extend_array_to_homogeneous(xyz_cc)
     xyz_color = get_color_array(rgb)[:, m]/255
 
@@ -50,6 +52,8 @@ def get_registered_xyz_rgb_wc_hm3d(cfg, frame):
     cam_pose = np.load(f"{cfg.poses_dir}/{frame}.npy")
 
     xyz_cc, m = project_pp_depth_from_hfov(depth, cfg.intrinsics.sensor_hfov)
+    if m.sum(0) == 0:
+        return None
     xyz_wc = cam_pose[:3, :] @ extend_array_to_homogeneous(xyz_cc)
     xyz_color = get_color_array(rgb)[:, m]/255
 

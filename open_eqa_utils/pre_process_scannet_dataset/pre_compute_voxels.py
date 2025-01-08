@@ -52,8 +52,6 @@ def main(cfg):
         logging.info(f"Processing scene: {scene}")
         cfg.open_eqa.scene_name = scene
         process_voxels_scannet(cfg)
-        return
-
 
 if __name__ == "__main__":
     main()
