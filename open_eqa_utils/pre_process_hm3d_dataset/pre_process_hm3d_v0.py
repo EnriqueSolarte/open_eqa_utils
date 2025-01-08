@@ -84,22 +84,22 @@ def main(cfg):
             f"{raw_scene_dir}/{s}" for s in os.listdir(raw_scene_dir) if s.endswith(".pkl")]
 
         # load habitat sim from cfg in one of the agent states
-        single_agent_state = Path(cfg.states_dir).rglob("*.pkl").__next__()
-        sim = load_habitat_sim(single_agent_state, cfg.hm3d_dir)
+        sim = load_habitat_sim(Path(list_states[0]), cfg.hm3d_dir)
 
         logging.info(
             f"Processing scene: {Path(raw_scene_dir).stem} - agent positions: {list_states.__len__()}")
-
+        # continue
         data_dir = create_directory(
-            f"{cfg.pre_proc_dir}/{Path(raw_scene_dir).stem}", delete_prev=False)
-        rgb_dir = create_directory(f"{data_dir}/rgb", delete_prev=False)
+            f"{cfg.pre_proc_dir}/{Path(raw_scene_dir).stem}", ignore_request=True)
+        rgb_dir = create_directory(f"{data_dir}/rgb")
         depth_dir = create_directory(f"{data_dir}/depth", delete_prev=False)
-        semantic_dir = create_directory(f"{data_dir}/semantic", delete_prev=False)
+        semantic_dir = create_directory(
+            f"{data_dir}/semantic", delete_prev=False)
         poses_dir = create_directory(f"{data_dir}/poses", delete_prev=False)
-        
+
         intrinsic_fn = f"{data_dir}/intrinsics.yaml"
         save_yaml_dict(intrinsic_fn, default_settings)
-        
+#
         for idx, path in tqdm(enumerate(list_states), desc="Processing agent states"):
             # set agent state
             data = pickle.load(Path(path).open("rb"))
@@ -113,9 +113,6 @@ def main(cfg):
             # Save RGB
             imwrite(f"{rgb_dir}/{frame}.jpg",
                     obs["rgb"][:, :, :3])
-
-            if cfg.get("rgb_only", False):
-                continue
 
             np.save(f"{semantic_dir}/{frame}.npy", obs['semantic'])
             np.save(f"{depth_dir}/{frame}.npy", obs['depth'])

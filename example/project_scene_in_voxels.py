@@ -19,6 +19,11 @@ import pickle
             config_path=get_abs_path(__file__),
             config_name="cfg.yaml")
 def main(cfg):
+    # Setting scene_name on runtime
+    list_scenes = cfg.open_eqa.dataset.scene_list
+    scene = list_scenes[0]
+    cfg.open_eqa.dataset.dataset = scene
+    
     list_frames = [Path(f).stem for f in os.listdir(cfg.open_eqa.rgb_dir)]
 
     # Loading pre-computed Voxels grid from saved pickle bin files
@@ -27,7 +32,8 @@ def main(cfg):
     voxel2d = VoxelGrid2D.from_bins(*bins_2d)
     voxel3d = VoxelGrid3D.from_bins(*bins_3d)
 
-    xyz_wc_registration = load_module(cfg.open_eqa.dataset.xyz_wc_registration_module)
+    xyz_wc_registration = load_module(
+        cfg.open_eqa.dataset.xyz_wc_registration_module)
     global_xyz_rgb = []
     skip_frames = cfg.get('skip_frames', 3)
     max_frames = cfg.get('max_frames', -1)
@@ -35,7 +41,8 @@ def main(cfg):
         # Read RGB, Depth, Camera Pose and register them to WC
         # xyz_rgb_wc = get_registered_xyz_rgb_wc_hm3d(cfg.open_eqa, fr)
         xyz_rgb_wc = xyz_wc_registration(cfg.open_eqa, fr)
-
+        if xyz_rgb_wc is None:
+            continue
         xyz_wc_vx, vx_idx, xyz_idx, all_xyz_idx = voxel3d.project_xyz(
             xyz_rgb_wc[:3])
         # Mapping from vx domain --> xyz Euclidean domain
