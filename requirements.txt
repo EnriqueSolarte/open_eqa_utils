@@ -1,2 +1,2 @@
-geometry-perception-utils-dev @ git+https://github.com/EnriqueSolarte/geometry_perception_utils.git@v1.0.1
+geometry-perception-utils-dev @ git+https://github.com/EnriqueSolarte/geometry_perception_utils.git@latest
 pypng

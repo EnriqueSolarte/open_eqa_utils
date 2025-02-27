@@ -1,0 +1,32 @@
+open_eqa_pre_process_dir: ???
+scannet:
+  prefix: scannet
+  data_dir: ${open_eqa_pre_process_dir}/scannet-v0-pre-processed
+  scene_name: 002-scannet-scene0709_00
+  cam_projection_module: open_eqa_utils.utils.cam_projection_scannet
+  xyz_wc_registration_module: open_eqa_utils.utils.get_registered_xyz_rgb_wc_scannet
+  scene_list: ${scannet_scene_list}
+  max_numb_fr: 600
+
+hm3d:
+  prefix: hm3d
+  data_dir: ${open_eqa_pre_process_dir}/hm3d-v0-pre-processed
+  scene_name: 000-hm3d-BFRyYbPCCPE
+  cam_projection_module: open_eqa_utils.utils.cam_projection_hm3d
+  xyz_wc_registration_module: open_eqa_utils.utils.get_registered_xyz_rgb_wc_hm3d
+  scene_list: ${hm3d_scene_list}
+  max_numb_fr: -1
+  
+open_eqa_questions: ${oc.env:OPEN_EAQ_UTILS_CFG_DIR}/open-eqa-v0.json
+
+open_eqa:
+  dataset: ${hm3d} # ${scannet} # ${hm3d} 
+  scene_name: ${open_eqa.dataset.scene_name}
+  data_dir: ${open_eqa.dataset.data_dir}
+  rgb_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/rgb
+  depth_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/depth
+  semantic_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/semantic
+  poses_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/poses
+  bins_voxels_2d_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/bins_voxel_map_2d.pkl
+  bins_voxels_3d_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/bins_voxel_map_3d.pkl
+  intrinsics: ${load:${open_eqa.data_dir}/${open_eqa.scene_name}/intrinsics.yaml}

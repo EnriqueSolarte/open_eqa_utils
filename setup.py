@@ -5,9 +5,12 @@ with open("./requirements.txt", "r") as f:
 
 setup(
     name="open-eqa-utils",
-    version="0.1",
+    version="0.2",
     packages=find_packages(),
     install_requires=requirements,
+    package_data={
+        "open_eqa_utils": ["config/**"],
+    },
     author="Enrique Solarte",
     author_email="enrique.solarte.pardo@gmail.com",
     description=("This PKG aims to complement and handle OpenEQA dataset"),
