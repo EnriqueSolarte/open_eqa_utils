@@ -7,6 +7,8 @@ from geometry_perception_utils.geometry_utils import extend_array_to_homogeneous
 from geometry_perception_utils.io_utils import create_directory, save_yaml_dict
 from open_eqa_utils.pre_process_scannet_dataset.scannet_open_eqa.SensorData import SensorData
 import numpy as np
+import os
+import open_eqa_utils
 
 
 def load_q_and_a(json_path: Path):
@@ -22,10 +24,14 @@ def check_file_exists(fn):
 
 
 def create_scene_dir(scene_dir, delete_prev=True):
-    data_dir = create_directory(scene_dir, delete_prev=delete_prev, ignore_request=True)
-    rgb_dir = create_directory(f"{data_dir}/rgb", delete_prev=delete_prev, ignore_request=True)
-    depth_dir = create_directory(f"{data_dir}/depth",delete_prev=delete_prev, ignore_request=True)
-    poses_dir = create_directory(f"{data_dir}/poses", delete_prev=delete_prev, ignore_request=True)
+    data_dir = create_directory(
+        scene_dir, delete_prev=delete_prev, ignore_request=True)
+    rgb_dir = create_directory(
+        f"{data_dir}/rgb", delete_prev=delete_prev, ignore_request=True)
+    depth_dir = create_directory(
+        f"{data_dir}/depth", delete_prev=delete_prev, ignore_request=True)
+    poses_dir = create_directory(
+        f"{data_dir}/poses", delete_prev=delete_prev, ignore_request=True)
     return rgb_dir, depth_dir, poses_dir
 
 
@@ -69,3 +75,17 @@ def cam_projection_scannet(depth, cfg):
     K = np.array(cfg.intrinsics.K).reshape(3, 3)
     xyz_cc, m = project_pp_depth_from_K(depth, K)
     return xyz_cc, m
+
+
+def save_visualization(xyz_rgb_wc, cfg, output_fn):
+    logging.info(f"Saving visualization to {cfg.log_dir}")
+    prefix = f"{cfg.open_eqa.dataset.prefix}"
+    xyz_fn = f"{cfg.log_dir}/{prefix}_xyz_rgb_wc.npy"
+    np.save(xyz_fn, xyz_rgb_wc)
+
+    script = f"{Path(open_eqa_utils.__file__).parent}/create_gif.py"
+
+    command = f"{cfg.python} {script} {xyz_fn} {cfg.log_dir}/{prefix}_tmp/ {output_fn}"
+    print("... Creating GIF visualization (May take a few seconds)")
+    os.system(command)
+    logging.info(f"Saved visualization to {output_fn}")
