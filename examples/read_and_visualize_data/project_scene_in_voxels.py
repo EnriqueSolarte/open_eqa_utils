@@ -13,6 +13,7 @@ from imageio.v2 import imread
 from geometry_perception_utils.dense_voxel_grid import VoxelGrid2D, VoxelGrid3D
 from geometry_perception_utils.io_utils import load_module
 import pickle
+import logging
 
 
 @hydra.main(version_base=None,
@@ -22,8 +23,9 @@ def main(cfg):
     # Setting scene_name on runtime
     list_scenes = cfg.open_eqa.dataset.scene_list
     scene = list_scenes[0]
-    cfg.open_eqa.dataset.dataset = scene
-    
+    cfg.open_eqa.dataset.prefix = scene
+
+    # Reading RGB frames
     list_frames = [Path(f).stem for f in os.listdir(cfg.open_eqa.rgb_dir)]
 
     # Loading pre-computed Voxels grid from saved pickle bin files
@@ -32,14 +34,18 @@ def main(cfg):
     voxel2d = VoxelGrid2D.from_bins(*bins_2d)
     voxel3d = VoxelGrid3D.from_bins(*bins_3d)
 
+    # Load module for camera registration to world coordinates
     xyz_wc_registration = load_module(
         cfg.open_eqa.dataset.xyz_wc_registration_module)
+    logging.info(
+        f"registration module: {cfg.open_eqa.dataset.xyz_wc_registration_module}"
+    )
+
     global_xyz_rgb = []
     skip_frames = cfg.get('skip_frames', 3)
     max_frames = cfg.get('max_frames', -1)
     for fr in tqdm(list_frames[0:max_frames:skip_frames]):
         # Read RGB, Depth, Camera Pose and register them to WC
-        # xyz_rgb_wc = get_registered_xyz_rgb_wc_hm3d(cfg.open_eqa, fr)
         xyz_rgb_wc = xyz_wc_registration(cfg.open_eqa, fr)
         if xyz_rgb_wc is None:
             continue

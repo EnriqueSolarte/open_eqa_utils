@@ -19,7 +19,7 @@ def main(cfg):
     # Setting scene_name on runtime
     list_scenes = cfg.open_eqa.dataset.scene_list
     scene = list_scenes[0]
-    cfg.open_eqa.dataset.dataset = scene
+    cfg.open_eqa.dataset.prefix = scene
     
     list_frames = [Path(f).stem for f in os.listdir(cfg.open_eqa.rgb_dir)]
     _xyz_rgb_wc = []

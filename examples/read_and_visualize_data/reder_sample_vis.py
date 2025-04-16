@@ -9,23 +9,8 @@ import pickle
 from geometry_perception_utils.dense_voxel_grid import VoxelGrid3D
 from geometry_perception_utils.io_utils import load_module
 from geometry_perception_utils.geometry_utils import extend_array_to_homogeneous
-from geometry_perception_utils.vispy_utils import plot_color_plc
 import os
-from imageio.v2 import imwrite
-import subprocess
-
-
-def save_visualization(xyz_rgb_wc, cfg):
-    logging.info(f"Saving visualization to {cfg.log_dir}")
-    prefix = f"{cfg.open_eqa.dataset.prefix}"
-    xyz_fn = f"{cfg.log_dir}/{prefix}_xyz_rgb_wc.npy"
-    np.save(xyz_fn, xyz_rgb_wc)
-    script = f"{get_abs_path(__file__)}/create_gif.py"
-    output_fn = f"{Path(cfg.open_eqa.rgb_dir).parent}/{prefix}_vis_scene.gif"
-    # output_fn = f"{cfg.log_dir}/{prefix}_vis_scene.gif"
-    command = f"{cfg.python} {script} {xyz_fn} {cfg.log_dir}/{prefix}_tmp/ {output_fn}"
-    os.system(command)
-    logging.info(f"Saved visualization to {output_fn}")
+from open_eqa_utils.utils import save_visualization
 
 
 def render_scene(cfg):
@@ -38,6 +23,7 @@ def render_scene(cfg):
     xyz_wc_registration = load_module(
         cfg.open_eqa.dataset.xyz_wc_registration_module)
     global_xyz_rgb = []
+
     skip_frames = cfg.get('skip_frames', int(list_frames.__len__()*0.1))
     max_frames = cfg.get('max_frames', -1)
 
@@ -59,19 +45,16 @@ def render_scene(cfg):
         global_xyz_rgb.append(local_xyz)
         # plot_list_pcl([x[:3] for x in global_xyz_rgb], shape=(512, 512))
     xyz_rgb_wc = np.hstack(global_xyz_rgb)
-    save_visualization(xyz_rgb_wc, cfg)
-    # plot_color_plc(xyz_rgb_wc[:3, :].T, xyz_rgb_wc[3:, :].T)
+    prefix = f"{cfg.open_eqa.dataset.prefix}"
+    output_fn = f"{cfg.log_dir}/{prefix}_vis_scene.gif"
+    save_visualization(xyz_rgb_wc, cfg, output_fn)
 
 
 @hydra.main(version_base=None,
             config_path=get_abs_path(__file__),
             config_name="cfg.yaml")
 def main(cfg):
-    list_scenes = cfg.open_eqa.dataset.scene_list
-    for scene in tqdm(list_scenes):
-        logging.info(f"Processing scene: {scene}")
-        cfg.open_eqa.scene_name = scene
-        render_scene(cfg)
+    render_scene(cfg)
 
 
 if __name__ == '__main__':

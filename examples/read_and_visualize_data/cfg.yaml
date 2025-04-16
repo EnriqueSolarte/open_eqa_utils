@@ -1,0 +1,21 @@
+hydra:
+  searchpath:
+    - ${oc.env:OPEN_EAQ_UTILS_CFG_DIR}
+    - ${oc.env:GEOM_UTILS_CFG_DIR}
+
+defaults:
+  - general
+  - list_scenes
+  - open_eqa_utils
+  - _self_
+
+log_dir: ${get_hydra_dirname:}/logs/${script}
+open_eqa_pre_process_dir: /media/datasets/open_eqa_dataset
+
+open_eqa:
+  dataset: ${scannet} #${hm3d} # ${scannet} # ${hm3d} 
+
+hm3d:
+  scene_name: 000-hm3d-BFRyYbPCCPE
+scannet:
+  scene_name: 002-scannet-scene0709_00
