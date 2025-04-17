@@ -2,7 +2,7 @@
 This repository contains utilities for the OpenEQA project. This is an independent project intended to pre-process the OpenEAQ data, explore more options, project easily in 3D using voxels maps, among other.
 
 <p align="center">
-  <img src="./assets/scene_test.gif"/>
+  <img src="./assets/scene_test.png"/>
 </p>
 
 ## Installation
