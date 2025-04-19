@@ -30,3 +30,7 @@ open_eqa:
   bins_voxels_2d_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/bins_voxel_map_2d.pkl
   bins_voxels_3d_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/bins_voxel_map_3d.pkl
   intrinsics: ${load:${open_eqa.data_dir}/${open_eqa.scene_name}/intrinsics.yaml}
+  # additional properties
+  intrinsics_fn: ${open_eqa.data_dir}/${open_eqa.scene_name}/intrinsics.yaml
+  sc_map_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/scene_coordinates/sc_maps
+  sc_map_vis_dir: ${open_eqa.data_dir}/${open_eqa.scene_name}/scene_coordinates/vis

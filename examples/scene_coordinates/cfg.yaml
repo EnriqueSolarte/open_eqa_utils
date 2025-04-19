@@ -19,13 +19,3 @@ hm3d:
   scene_name: 000-hm3d-BFRyYbPCCPE
 scannet:
   scene_name: 002-scannet-scene0709_00
-
-# hm_data:
-#   data_dir: /media/datasets/open_eqa_dataset/hm3d-v0-pre-processed
-#   scene: 000-hm3d-BFRyYbPCCPE
-#   rgb_dir: ${hm_data.data_dir}/${hm_data.scene}/rgb
-#   depth_dir: ${hm_data.data_dir}/${hm_data.scene}/depth
-#   poses_dir: ${hm_data.data_dir}/${hm_data.scene}/poses
-#   bins_voxel_map_3d_fn: ${hm_data.data_dir}/${hm_data.scene}/bins_voxel_map_3d.pkl
-#   bins_voxel_map_2d_fn: ${hm_data.data_dir}/${hm_data.scene}/bins_voxel_map_2d.pkl
-#   cfg: ${load:${hm_data.data_dir}/${hm_data.scene}/intrinsics.yaml}

@@ -26,9 +26,9 @@ def main(cfg):
     list_idx = [fn.stem for fn in Path(rgb_dir).iterdir()]
     list_idx = sorted(list_idx, key=lambda x: int(x))
 
-    # Scales considering the whole scene (run examples/scene_coordinates/scene_xyz.py)
-    scene_scale_max = [1.865, 1.065, 2.355]
-    scene_scale_min = [-9.175, - 2.055, - 6.345]
+    # scales
+    scene_scale_max = cfg.open_eqa.intrinsics.max_scale
+    scene_scale_min = cfg.open_eqa.intrinsics.min_scale
 
     cam_projection = load_module(cfg.open_eqa.dataset.cam_projection_module)
 

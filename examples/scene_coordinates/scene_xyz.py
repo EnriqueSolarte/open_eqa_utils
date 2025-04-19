@@ -37,7 +37,6 @@ def main(cfg):
     rgb_dir = f"{cfg.open_eqa.rgb_dir}"
     depth_dir = f"{cfg.open_eqa.depth_dir}"
     poses_dir = f"{cfg.open_eqa.poses_dir}"
-    hfov = cfg.open_eqa.intrinsics.sensor_hfov
 
     list_idx = [fn.stem for fn in Path(rgb_dir).iterdir()]
     list_idx = sorted(list_idx, key=lambda x: int(x))
@@ -49,7 +48,7 @@ def main(cfg):
         depth_map = np.load(f"{depth_dir}/{idx}.npy")
         cam_pose = np.load(f"{poses_dir}/{idx}.npy")
 
-        xyz, m = project_pp_depth_from_hfov(depth_map, hfov=hfov)
+        xyz, m = cam_projection(depth_map, cfg.open_eqa)
         xyz_wc = cam_pose[:3, :] @ extend_array_to_homogeneous(xyz)
 
         xyz_wc_vx, vx_idx, xyz_idx, all_xyz_idx = voxel_map.project_xyz(xyz_wc)
