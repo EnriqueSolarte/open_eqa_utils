@@ -7,7 +7,7 @@ from imageio.v2 import imread
 import numpy as np
 from geometry_perception_utils.geometry_utils import extend_array_to_homogeneous
 from geometry_perception_utils.image_utils import get_color_array, get_map_from_array
-from geometry_perception_utils.vispy_utils import plot_color_plc
+from geometry_perception_utils.vispy_utils import plot_color_plc, plot_list_pcl
 from geometry_perception_utils.pcl_utils import max_min_normalization
 from geometry_perception_utils.dense_voxel_grid.voxel_grid_3d import VoxelGrid3D
 import open_eqa_utils
@@ -86,13 +86,16 @@ def save_scene_coordinates_maps(cfg):
 
         # Save map scene coordinates
         xyz_sc[:, m] = xyz_wc
-        np.save(f"{cfg.open_eqa.sc_map_dir}/{idx}.npy", xyz_sc)
-
         # Save map scene coordinates visualization
         sc_colors_vis, _, _ = max_min_normalization(
             xyz_wc, scene_scale_max, scene_scale_min)
+        
+        np.save(f"{cfg.open_eqa.sc_map_dir}/{idx}.npy", get_map_from_array(xyz_sc, rgb.shape))
+        
         xyz_sc[:, m] = sc_colors_vis
+        
         map_color_vis = get_map_from_array(xyz_sc, rgb.shape)
+        
         plt.figure(0)
         plt.clf()
         plt.imshow(np.hstack((map_color_vis, rgb/255)))
@@ -111,6 +114,7 @@ def save_scene_coordinates_maps(cfg):
             config_name="cfg.yaml")
 def main(cfg):
     save_cfg(cfg, resolve=True)
+    print(f"Scene: {cfg.open_eqa.scene_name}")
     # pre_compute_scales(cfg)
     save_scene_coordinates_maps(cfg)
 
