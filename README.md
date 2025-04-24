@@ -4,6 +4,9 @@ This repository contains utilities for the OpenEQA project. This is an independe
 ## News and Updates:
 - **2025-04-19**: Version `v1.0.1`. Added pre-computation of scene coordinates. see [Scene Coordinates](https://github.com/EnriqueSolarte/open_eqa_utils/blob/e4c5202bf4edff2fb206894af81286927143fadc/examples/scene_coordinates/pre_computed_sc.py#L85).
 
+- **2025-04-24**: Version `v1.0.2`. Added example of how to pre-process original Scannet. see [process_original_scannet](https://github.com/EnriqueSolarte/open_eqa_utils/blob/8863d64b007a2bd58b1eb948d7699530a9504588/examples/process_original_scannet).
+
+
 <p align="center">
   <img src="./assets/scene_test.png"/>
 </p>
