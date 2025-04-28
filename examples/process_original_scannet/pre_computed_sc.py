@@ -128,7 +128,7 @@ def save_scene_coordinates_maps(cfg):
 def main(cfg):
     save_cfg(cfg, resolve=True)
     print(f"Scene: {cfg.scene_name}")
-    # pre_compute_scales(cfg)
+    pre_compute_scales(cfg)
     save_scene_coordinates_maps(cfg)
 
 
